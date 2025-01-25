@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 author 'XSCRIPTS'
 description 'X Fish Anywhere'
-version '1.0'
+version '2.0'
 
 shared_scripts {
     'shared/config.lua',
