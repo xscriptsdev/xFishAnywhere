@@ -45,11 +45,9 @@ RegisterNetEvent("xFishAnywhere:catchFish")
 AddEventHandler("xFishAnywhere:catchFish", function()
     local source = source
     if not HasFishingRod(source) then
-        TriggerClientEvent("lib:notify", source, { title = "Fishing", description = "You don't have a fishing rod!", type = "error" })
         return
     end
     GiveFishingReward(source)
-    TriggerClientEvent("lib:notify", source, { title = "Fishing", description = "You caught a fish!", type = "success" })
 end)
 
 RegisterNetEvent("xFishAnywhere:breakRod")
