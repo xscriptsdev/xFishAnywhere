@@ -1,12 +1,4 @@
-For more scripts , any help join in our discord!
+X Fish Anywhere I ESX & QB
 
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
-https://discord.gg/N74Yuq9ARQ
+Support:
 https://discord.gg/N74Yuq9ARQ
