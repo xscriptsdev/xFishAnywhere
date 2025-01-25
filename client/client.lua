@@ -1,5 +1,6 @@
 local isFishing = false
 local failStreak = 0
+local fishingRodProp = nil
 
 local function IsNearWater()
     local ped = PlayerPedId()
@@ -18,36 +19,46 @@ end
 
 local function StartFishing()
     if isFishing then
-        lib.notify({ title = "Fishing", description = "You are already fishing!", type = "error" })
+        lib.notify({ title = Config.Title, description = Config.AlreadyFishing, type = "error" })
         return
     end
 
     local ped = PlayerPedId()
     if not IsNearWater() or not isWaterThere() then
-        lib.notify({ title = "Fishing", description = "You need to be standing in front of water to fish!", type = "error" })
+        lib.notify({ title = Config.Title, description = Config.StandInFrontOfWater, type = "error" })
         return
     end
 
-    isFishing = true
-    TaskStartScenarioInPlace(ped, "WORLD_HUMAN_STAND_FISHING", 0, true)
+    lib.requestAnimDict('amb@world_human_stand_fishing@idle_a')
+    lib.requestAnimDict('mini@tennis')
 
-    local success = lib.skillCheck({ 'easy', 'easy', { areaSize = 60, speedMultiplier = 2 }, 'easy' }, { 'w', 'w', 'w', 'w' })
+    isFishing = true
+    TaskPlayAnim(ped, 'amb@world_human_stand_fishing@idle_a', 'idle_b', 8.0, -1.0, -1, 50, 0, false, false, false)
+
+    fishingRodProp = CreateObject(GetHashKey("prop_fishing_rod_01"), 0.0, 0.0, 0.0, true, true, false)
+    AttachEntityToEntity(fishingRodProp, ped, GetPedBoneIndex(ped, 57005), 0.1, 0.02, -0.01, 30.0, 40.0, 50.0, true, true, false, true, false, true)
+
+    local success = lib.skillCheck({ Config.Skillcheck1, Config.Skillcheck2, { areaSize = Config.areaSize, speedMultiplier = Config.speedMultiplier }, Config.Skillcheck3 }, { Config.SkillKey1, Config.SkillKey2, Config.SkillKey3, Config.SkillKey4 })
 
     ClearPedTasksImmediately(ped)
-    
+
+    if fishingRodProp then
+        DeleteObject(fishingRodProp)
+        fishingRodProp = nil
+    end
     isFishing = false
 
     if success then
         failStreak = 0
         TriggerServerEvent("xFishAnywhere:catchFish")
-        lib.notify({ title = "Fishing", description = "You caught a fish!", type = "success" })
+        lib.notify({ title = Config.Title, description = Config.FishCaught, type = "success" })
     else
         failStreak = failStreak + 1
-        lib.notify({ title = "Fishing", description = "You failed to catch anything!", type = "error" })
+        lib.notify({ title = Config.Title, description = "You failed to catch anything!", type = "error" })
         if Config.BreakRodAfterFails and failStreak >= Config.FailAttemptsToBreak then
             failStreak = 0
             TriggerServerEvent("xFishAnywhere:breakRod")
-            lib.notify({ title = "Fishing", description = "Your fishing rode broke!", type = "error" })
+            lib.notify({ title = Config.Title, description = Config.FishingRodBroke, type = "error" })
         end
     end
 end
