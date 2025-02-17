@@ -4,6 +4,12 @@
 		weight = 250
 	},
 
+        ['bait'] = {
+		label = 'Bait',
+		stack = false,
+		weight = 30
+	},
+
 	["fish"] = {
 		label = "Fish",
 		weight = 1,
