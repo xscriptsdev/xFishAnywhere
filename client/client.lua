@@ -17,6 +17,12 @@ local function isWaterThere()
     return hasWater
 end
 
+
+RegisterNetEvent('xFishAnywhere:notify')
+AddEventHandler('xFishAnywhere:notify', function(message, type)
+    lib.notify({ title = Config.Title, description = message, type = type })
+end)
+
 local function StartFishing()
     if isFishing then
         lib.notify({ title = Config.Title, description = Config.AlreadyFishing, type = "error" })
