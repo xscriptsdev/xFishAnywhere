@@ -11,6 +11,8 @@ Config = {}
 
 Config.RequiredItem = "basic_rod" -- Here you can put your own item for fishing rod or use this one
 
+Config.RequiredBait = "bait"     -- Bait item
+
 Config.FishingRewards = { "fish", "shark" } -- you can put more if u need to
 
 Config.BreakRodAfterFails = true -- true for to break the road after fails
