@@ -58,10 +58,29 @@ AddEventHandler("xFishAnywhere:breakRod", function()
     end
 end)
 
-ESX.RegisterUsableItem(Config.RequiredItem, function(source)
-    TriggerClientEvent("xFishAnywhere:useRod", source)
-end)
-
-QBCore.Functions.CreateUseableItem(Config.RequiredItem, function(source)
-    TriggerClientEvent("xFishAnywhere:useRod", source)
-end)
+    if ESX then
+        ESX.RegisterUsableItem(Config.RequiredItem, function(source)
+            local xPlayer = ESX.GetPlayerFromId(source)
+            local bait = xPlayer.getInventoryItem(Config.RequiredBait)
+            
+            if bait and bait.count > 0 then
+                xPlayer.removeInventoryItem(Config.RequiredBait, 1)
+                TriggerClientEvent("xFishAnywhere:useRod", source)
+            else
+                TriggerClientEvent('xFishAnywhere:notify', source, Config.YouNeedBait, 'error')
+            end
+        end)
+    elseif QBCore then
+        QBCore.Functions.CreateUseableItem(Config.RequiredItem, function(source)
+            local Player = QBCore.Functions.GetPlayer(source)
+            local bait = Player.Functions.GetItemByName(Config.RequiredBait)
+            
+            if bait and bait.amount > 0 then
+                Player.Functions.RemoveItem(Config.RequiredBait, 1)
+                TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[Config.RequiredBait], "remove")
+                TriggerClientEvent("xFishAnywhere:useRod", source)
+            else
+                TriggerClientEvent('QBCore:Notify', source, 'You need fishing bait to fish!', 'error')
+            end
+        end)
+    end
